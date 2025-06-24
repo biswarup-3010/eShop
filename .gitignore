@@ -1,0 +1,65 @@
+﻿# Build artifacts
+bin/
+obj/
+out/
+artifacts/
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# Rider/JetBrains
+.idea/
+
+# VS Code
+.vscode/
+
+# Mac system files
+.DS_Store
+
+# Windows thumbnail cache
+Thumbs.db
+
+# ASP.NET secrets
+secrets.json
+*.pfx
+*.snk
+
+# Logs
+*.log
+logs/
+
+# Published files
+wwwroot/dist/
+publish/
+*.publish.xml
+
+# NuGet
+*.nupkg
+packages/
+project.lock.json
+
+# Dependency folders
+node_modules/
+bower_components/
+
+# dotenv env vars
+.env
+.env.*
+
+# Resharper
+_ReSharper*/
+*.DotSettings.user
+
+# EF Core tools files
+Migrations/
+
+# Local database
+*.db
+*.sqlite
+
+# Azure/DevOps
+.vs/
+.vscode/
