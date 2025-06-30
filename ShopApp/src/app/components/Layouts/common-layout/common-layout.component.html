@@ -1,0 +1,326 @@
+<div class="app-container">
+  <!-- Navigation Bar -->
+  <nav class="navbar" [class.scrolled]="isScrolled">
+    <div class="nav-container">
+      <!-- Logo -->
+      <div class="logo">
+        <span class="logo-text">ARISTOS</span>
+        <div class="logo-underline"></div>
+      </div>
+
+      <!-- Desktop Menu -->
+      <ul class="nav-menu desktop-menu">
+        <li class="nav-item">
+          <a
+            href="#home"
+            class="nav-link"
+            [class.active]="activeSection === 'home'"
+          >
+            <span>Home</span>
+            <div class="nav-underline"></div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            href="#products"
+            class="nav-link"
+            [class.active]="activeSection === 'products'"
+          >
+            <span>Products</span>
+            <div class="nav-underline"></div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            href="#contact"
+            class="nav-link"
+            [class.active]="activeSection === 'contact'"
+          >
+            <span>Contact Us</span>
+            <div class="nav-underline"></div>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Auth Buttons -->
+      <div class="auth-buttons desktop-auth">
+        <button class="btn btn-login">Login</button>
+        <button class="btn btn-signup">Sign Up</button>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <button
+        class="mobile-toggle"
+        (click)="toggleMobileMenu()"
+        [class.active]="isMobileMenuOpen"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" [class.active]="isMobileMenuOpen">
+      <ul class="mobile-nav-list">
+        <li><a href="#home" (click)="closeMobileMenu()">Home</a></li>
+        <li><a href="#products" (click)="closeMobileMenu()">Products</a></li>
+        <li><a href="#contact" (click)="closeMobileMenu()">Contact Us</a></li>
+        <li class="mobile-auth">
+          <button class="btn btn-login mobile">Login</button>
+          <button class="btn btn-signup mobile">Sign Up</button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Hero Section with Carousel -->
+    <section id="home" class="hero-section">
+      <div class="hero-carousel">
+        <div class="carousel-container">
+          <div
+            class="carousel-slides"
+            [style.transform]="'translateX(-' + currentSlide * 100 + '%)'"
+          >
+            <div
+              class="carousel-slide"
+              *ngFor="let slide of carouselImages; let i = index"
+            >
+              <div
+                class="slide-background"
+                [style.background-image]="'url(' + slide.url + ')'"
+              ></div>
+              <div class="slide-overlay"></div>
+              <div class="slide-content">
+                <h2 class="slide-title">{{ slide.title }}</h2>
+                <p class="slide-subtitle">{{ slide.subtitle }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Carousel Controls -->
+          <button class="carousel-btn prev" (click)="prevSlide()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M15 18L9 12L15 6"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <button class="carousel-btn next" (click)="nextSlide()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M9 18L15 12L9 6"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+
+          <!-- Carousel Dots -->
+          <div class="carousel-dots">
+            <button
+              *ngFor="let slide of carouselImages; let i = index"
+              class="carousel-dot"
+              [class.active]="i === currentSlide"
+              (click)="goToSlide(i)"
+            ></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-content">
+        <h1 class="hero-title">
+          <span class="title-line animate-fade-up">Exquisite</span>
+          <span class="title-line animate-fade-up delay-1">Excellence</span>
+        </h1>
+        <p class="hero-subtitle animate-fade-up delay-2">
+          Experience the pinnacle of luxury and sophistication with our curated
+          collection
+        </p>
+        <button
+          class="btn btn-hero animate-fade-up delay-3"
+          (click)="scrollToProducts()"
+        >
+          Explore Collection
+        </button>
+      </div>
+
+      <div class="floating-elements">
+        <div class="floating-element element-1"></div>
+        <div class="floating-element element-2"></div>
+        <div class="floating-element element-3"></div>
+      </div>
+
+      <div class="scroll-indicator">
+        <div class="scroll-dot"></div>
+      </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="products-section">
+      <div class="container">
+        <h2 class="section-title animate-on-scroll">Our Premium Products</h2>
+        <div class="products-grid">
+          <div
+            class="product-card animate-on-scroll"
+            *ngFor="let product of products; let i = index"
+            [style.animation-delay]="i * 0.2 + 's'"
+          >
+            <!-- Top-right 3-dot menu -->
+            <div class="product-menu">
+              <button class="menu-button" (click)="toggleWishlistMenu(product)">
+                &#8942;
+              </button>
+              <div class="wishlist-menu" *ngIf="product.showWishlistMenu">
+                <button (click)="addToWishlist(product)">
+                  Add to Wishlist
+                </button>
+                <button (click)="removeFromWishlist(product)">
+                  Remove from Wishlist
+                </button>
+              </div>
+            </div>
+
+            <div class="product-image">
+              <div class="product-shimmer"></div>
+              <div class="product-overlay">
+                <button class="btn btn-view">View Details</button>
+              </div>
+            </div>
+
+            <div class="product-info">
+              <h3>{{ product.productName }}</h3>
+              <p>{{ product.description }}</p>
+              <span class="price">&#8377;{{ product.price }}</span>
+            </div>
+
+            <div class="product-actions">
+              <button class="btn btn-buy" (click)="buyNow(product)">
+                Buy Now
+              </button>
+              <button class="btn btn-cart" (click)="addToCart(product)">
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+      <div class="container">
+        <h2 class="section-title animate-on-scroll">What Our Clients Say</h2>
+        <div class="testimonial-carousel">
+          <div class="testimonial-container">
+            <div
+              class="testimonial-slides"
+              [style.transform]="
+                'translateX(-' + currentTestimonial * 100 + '%)'
+              "
+            >
+              <div
+                class="testimonial-slide"
+                *ngFor="let testimonial of testimonials; let i = index"
+              >
+                <div class="testimonial-content">
+                  <div class="quote-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M3 21C3 17.4 3 14.8 3 12.2C3 7.8 6.6 4.2 11 4.2C12.2 4.2 13.2 4.7 14 5.5L12.5 7C12 6.5 11.3 6.2 10.5 6.2C8.1 6.2 6.2 8.1 6.2 10.5V11H9C10.1 11 11 11.9 11 13V18C11 19.1 10.1 20 9 20H5C3.9 20 3 19.1 3 18V21Z"
+                        fill="currentColor"
+                      />
+                      <path
+                        d="M13 21C13 17.4 13 14.8 13 12.2C13 7.8 16.6 4.2 21 4.2C22.2 4.2 23.2 4.7 24 5.5L22.5 7C22 6.5 21.3 6.2 20.5 6.2C18.1 6.2 16.2 8.1 16.2 10.5V11H19C20.1 11 21 11.9 21 13V18C21 19.1 20.1 20 19 20H15C13.9 20 13 19.1 13 18V21Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </div>
+                  <p class="testimonial-text">{{ testimonial.text }}</p>
+                  <div class="testimonial-author">
+                    <h4>{{ testimonial.author }}</h4>
+                    <span>{{ testimonial.role }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="testimonial-nav">
+              <button
+                *ngFor="let testimonial of testimonials; let i = index"
+                class="testimonial-dot"
+                [class.active]="i === currentTestimonial"
+                (click)="goToTestimonial(i)"
+              ></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+      <div class="container">
+        <div class="contact-content">
+          <div class="contact-info">
+            <h2 class="section-title">Get In Touch</h2>
+            <p class="contact-description">
+              We'd love to hear from you. Reach out to us for any inquiries
+              about our exclusive collection.
+            </p>
+            <div class="contact-details">
+              <div class="contact-item">
+                <strong>Address</strong>
+                <p>123 Luxury Avenue<br />Premium District, City 12345</p>
+              </div>
+              <div class="contact-item">
+                <strong>Phone</strong>
+                <p>+1 (555) 123-4567</p>
+              </div>
+              <div class="contact-item">
+                <strong>Email</strong>
+                <p>contact@aristos.com</p>
+              </div>
+            </div>
+          </div>
+          <form class="contact-form">
+            <div class="form-group">
+              <input type="text" placeholder="Your Name" class="form-input" />
+            </div>
+            <div class="form-group">
+              <input type="email" placeholder="Your Email" class="form-input" />
+            </div>
+            <div class="form-group">
+              <textarea
+                placeholder="Your Message"
+                rows="5"
+                class="form-input"
+              ></textarea>
+            </div>
+            <button type="submit" class="btn btn-submit">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <span class="logo-text">ARISTOS</span>
+        </div>
+        <p>&copy; 2025 Aristos. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</div>

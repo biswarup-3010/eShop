@@ -282,16 +282,17 @@ INSERT INTO Roles (RoleName) VALUES
 
 -- Users
 INSERT INTO Users (FullName, Email, PasswordHash, Phone, Address, RoleID) VALUES
-('Alice Smith','alice@example.com','pass123','1234567890','123 Apple St',1),
-('Bob Johnson','bob@example.com','pass456','1234567891','456 Banana Ave',2),
-('Charlie Brown','charlie@example.com','pass789','1234567892','789 Cherry Rd',3),
-('Diana Ross','diana@example.com','pass321','1234567893','321 Grape Ln',1),
-('Evan Lee','evan@example.com','pass654','1234567894','654 Orange Blvd',1),
-('Fiona Wu','fiona@example.com','pass987','1234567895','987 Pear Ct',1),
-('George King','george@example.com','passabc','1234567896','111 Mango Dr',1),
-('Hannah Green','hannah@example.com','passdef','1234567897','222 Berry Ln',1),
-('Ian Gray','ian@example.com','passghi','1234567898','333 Kiwi St',1),
-('Julia Snow','julia@example.com','passjkl','1234567899','444 Pine Ave',1);
+('Alice Smith', 'alice@example.com', 'Pass123!', '1234567890', '123 Apple St', 1),
+('Bob Johnson', 'bob@example.com', 'Secure456$', '1234567891', '456 Banana Ave', 2),
+('Charlie Brown', 'charlie@example.com', 'Char789#', '1234567892', '789 Cherry Rd', 3),
+('Diana Ross', 'diana@example.com', 'Diana321@', '1234567893', '321 Grape Ln', 1),
+('Evan Lee', 'evan@example.com', 'Evan654%', '1234567894', '654 Orange Blvd', 1),
+('Fiona Wu', 'fiona@example.com', 'Fiona987^', '1234567895', '987 Pear Ct', 1),
+('George King', 'george@example.com', 'George1!', '1234567896', '111 Mango Dr', 1),
+('Hannah Green', 'hannah@example.com', 'Hannah2@', '1234567897', '222 Berry Ln', 1),
+('Ian Gray', 'ian@example.com', 'Ian345$', '1234567898', '333 Kiwi St', 1),
+('Julia Snow', 'julia@example.com', 'Julia6#7', '1234567899', '444 Pine Ave', 1);
+
 
 -- Categories
 INSERT INTO Categories (CategoryName) VALUES

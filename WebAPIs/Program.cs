@@ -13,18 +13,25 @@ public class Program
         // Add services to the container.
 
         builder.Services.AddControllers();
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddScoped<EShopRepository>();
-        builder.Services.AddDbContext<EShopContext>(options =>
-    options.UseMySql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        new MySqlServerVersion(new Version(8, 0, 36))
-    )
-);
 
-        builder.Services.AddScoped<EShopRepository>();
+        builder.Services.AddDbContext<EShopContext>(options =>
+            options.UseMySql(
+                builder.Configuration.GetConnectionString("DefaultConnection"),
+                new MySqlServerVersion(new Version(8, 0, 36))
+            )
+        );
+
+        // ✅ Add CORS policy for Angular app
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAngularDev",
+                policy => policy.WithOrigins("http://localhost:4200")
+                                .AllowAnyHeader()
+                                .AllowAnyMethod());
+        });
 
         var app = builder.Build();
 
@@ -37,12 +44,13 @@ public class Program
 
         app.UseHttpsRedirection();
 
-        app.UseAuthorization();
+        // ✅ Enable the CORS policy
+        app.UseCors("AllowAngularDev");
 
+        app.UseAuthorization();
 
         app.MapControllers();
 
         app.Run();
     }
 }
-

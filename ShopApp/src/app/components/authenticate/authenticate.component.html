@@ -1,0 +1,338 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1 class="brand-title">✨ Sovereign Elegance ✨</h1>
+      <p class="subtitle">Refined luxury for the discerning few</p>
+    </div>
+
+    <div class="mode-toggle">
+      <button
+        type="button"
+        class="toggle-btn"
+        [class.active]="isLoginMode"
+        (click)="isLoginMode = true"
+      >
+        Sign In
+      </button>
+      <button
+        type="button"
+        class="toggle-btn"
+        [class.active]="!isLoginMode"
+        (click)="isLoginMode = false"
+      >
+        Create Account
+      </button>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <form
+      *ngIf="isLoginMode"
+      #loginForm="ngForm"
+      (ngSubmit)="onLoginSubmit(loginForm)"
+      class="auth-form"
+      novalidate
+    >
+      <div class="form-group">
+        <label for="login-email">Email Address *</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          [(ngModel)]="loginData.email"
+          class="form-input"
+          required
+          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+          title="Please enter a valid email address like yourname@example.com"
+          placeholder="your@email.com"
+        />
+        <div class="error-message" *ngIf="isFieldInvalid(loginForm, 'email')">
+          {{ getFieldError(loginForm, "email") }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="login-password">Password *</label>
+        <div class="password-input">
+          <input
+            id="login-password"
+            name="password"
+            [type]="showPassword ? 'text' : 'password'"
+            [(ngModel)]="loginData.password"
+            class="form-input"
+            [class.error]="isFieldInvalid(loginForm, 'password')"
+            required
+            minlength="6"
+            maxlength="255"
+            placeholder="Enter your password"
+          />
+          <button
+            type="button"
+            class="password-toggle"
+            (click)="togglePasswordVisibility('password')"
+          >
+            {{ showPassword ? "👁️" : "👁️‍🗨️" }}
+          </button>
+        </div>
+        <div
+          class="error-message"
+          *ngIf="isFieldInvalid(loginForm, 'password')"
+        >
+          {{ getFieldError(loginForm, "password") }}
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <a href="#" class="forgot-link">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="submit-btn" [disabled]="loginForm.invalid">
+        Sign In
+      </button>
+    </form>
+
+    <!-- REGISTER FORM -->
+    <form
+      *ngIf="!isLoginMode"
+      #registerForm="ngForm"
+      (ngSubmit)="onRegisterSubmit(registerForm)"
+      class="auth-form"
+      novalidate
+    >
+      <div class="form-group">
+        <label for="fullName">Full Name *</label>
+        <input
+          id="fullName"
+          name="fullName"
+          type="text"
+          [(ngModel)]="registerData.fullName"
+          class="form-input"
+          [class.error]="isFieldInvalid(registerForm, 'fullName')"
+          required
+          minlength="2"
+          maxlength="100"
+          pattern="[a-zA-Z\s]+"
+          title="Only letters and spaces allowed"
+          placeholder="Enter your full name"
+        />
+        <div
+          class="error-message"
+          *ngIf="isFieldInvalid(registerForm, 'fullName')"
+        >
+          {{ getFieldError(registerForm, "fullName") }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="register-email">Email Address *</label>
+        <input
+          id="register-email"
+          name="email"
+          type="email"
+          [(ngModel)]="registerData.email"
+          class="form-input"
+          [class.error]="isFieldInvalid(registerForm, 'email')"
+          required
+          email
+          maxlength="100"
+          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+          title="Please enter a valid email address like yourname@example.com"
+          placeholder="your@email.com"
+        />
+        <div
+          class="error-message"
+          *ngIf="isFieldInvalid(registerForm, 'email')"
+        >
+          {{ getFieldError(registerForm, "email") }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number *</label>
+        <input
+          id="phone"
+          name="phone"
+          type="tel"
+          [(ngModel)]="registerData.phone"
+          class="form-input"
+          [class.error]="isFieldInvalid(registerForm, 'phone')"
+          required
+          maxlength="20"
+          pattern="^[\+]?[1-9][0-9]{7,15}$"
+          title="Enter a valid phone number (min 8 digits, optional +)"
+          placeholder="+1234567890"
+        />
+        <div
+          class="error-message"
+          *ngIf="isFieldInvalid(registerForm, 'phone')"
+        >
+          {{ getFieldError(registerForm, "phone") }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="address">Address *</label>
+        <textarea
+          id="address"
+          name="address"
+          [(ngModel)]="registerData.address"
+          class="form-input form-textarea"
+          [class.error]="isFieldInvalid(registerForm, 'address')"
+          required
+          minlength="10"
+          maxlength="500"
+          rows="3"
+          placeholder="Enter your complete address"
+        ></textarea>
+        <div
+          class="error-message"
+          *ngIf="isFieldInvalid(registerForm, 'address')"
+        >
+          {{ getFieldError(registerForm, "address") }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="register-password">Password *</label>
+        <div class="password-input">
+          <input
+            id="register-password"
+            name="password"
+            [type]="showPassword ? 'text' : 'password'"
+            [(ngModel)]="registerData.password"
+            class="form-input"
+            [class.error]="isFieldInvalid(registerForm, 'password')"
+            required
+            minlength="8"
+            maxlength="255"
+            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+            title="Minimum 8 characters with uppercase, lowercase, number, and special character"
+            placeholder="Enter a strong password"
+          />
+          <button
+            type="button"
+            class="password-toggle"
+            (click)="togglePasswordVisibility('password')"
+          >
+            {{ showPassword ? "👁️" : "👁️‍🗨️" }}
+          </button>
+        </div>
+        <div class="password-requirements">
+          <small
+            >Password must contain: 8+ characters, uppercase, lowercase, number,
+            and special character.</small
+          >
+        </div>
+        <div
+          class="error-message"
+          *ngIf="isFieldInvalid(registerForm, 'password')"
+        >
+          {{ getFieldError(registerForm, "password") }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password *</label>
+        <div class="password-input">
+          <input
+            id="confirmPassword"
+            name="confirmPassword"
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            [(ngModel)]="registerData.confirmPassword"
+            class="form-input"
+            [class.error]="
+              isFieldInvalid(registerForm, 'confirmPassword') ||
+              isPasswordMismatch(registerForm)
+            "
+            required
+            placeholder="Confirm your password"
+          />
+          <button
+            type="button"
+            class="password-toggle"
+            (click)="togglePasswordVisibility('confirm')"
+          >
+            {{ showConfirmPassword ? "👁️" : "👁️‍🗨️" }}
+          </button>
+        </div>
+        <div class="error-message" *ngIf="isPasswordMismatch(registerForm)">
+          Passwords do not match
+        </div>
+        <div
+          class="error-message"
+          *ngIf="
+            isFieldInvalid(registerForm, 'confirmPassword') &&
+            !isPasswordMismatch(registerForm)
+          "
+        >
+          {{ getFieldError(registerForm, "confirmPassword") }}
+        </div>
+      </div>
+
+      <div class="form-group checkbox-group">
+        <label class="checkbox-label">
+          <input
+            type="checkbox"
+            name="terms"
+            required
+            [(ngModel)]="termsAccepted"
+            #terms="ngModel"
+          />
+          <span class="checkmark"></span>
+          I agree to the <a href="#" target="_blank">Terms of Service</a> and
+          <a href="#" target="_blank">Privacy Policy</a> *
+        </label>
+        <div class="error-message" *ngIf="terms.invalid && terms.touched">
+          You must agree to the terms and conditions
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="submit-btn"
+        [disabled]="registerForm.invalid || isPasswordMismatch(registerForm)"
+      >
+        Create Account
+      </button>
+    </form>
+
+    <!-- SOCIAL LOGIN -->
+    <div class="social-section">
+      <div class="divider">
+        <span>or continue with</span>
+      </div>
+      <div class="social-buttons">
+        <button
+          type="button"
+          class="social-btn"
+          (click)="onSocialLogin('google')"
+        >
+          <span class="social-icon">G</span> Google
+        </button>
+        <button
+          type="button"
+          class="social-btn"
+          (click)="onSocialLogin('apple')"
+        >
+          <span class="social-icon">🍎</span> Apple
+        </button>
+      </div>
+    </div>
+
+    <div class="auth-footer">
+      <p class="terms">
+        <span *ngIf="isLoginMode">
+          Don't have an account?
+          <a href="#" (click)="toggleMode(); $event.preventDefault()"
+            >Create one</a
+          >
+        </span>
+        <span *ngIf="!isLoginMode">
+          Already have an account?
+          <a href="#" (click)="toggleMode(); $event.preventDefault()"
+            >Sign in</a
+          >
+        </span>
+      </p>
+    </div>
+  </div>
+</div>
