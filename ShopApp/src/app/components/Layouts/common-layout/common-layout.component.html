@@ -1,18 +1,34 @@
+<!-- Add both fonts in <head> -->
+<link
+  href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap"
+  rel="stylesheet"
+/>
+
 <div class="app-container">
   <!-- Navigation Bar -->
   <nav class="navbar" [class.scrolled]="isScrolled">
     <div class="nav-container">
       <!-- Logo -->
-      <div class="logo">
-        <span class="logo-text">ARISTOS</span>
+      <div
+        class="logo"
+        style="display: flex; flex-direction: column; align-items: flex-start"
+      >
+        <div style="display: flex; align-items: center; gap: 0.5rem">
+          <img
+            src="assets/FullLogo.png"
+            alt="Logo"
+            style="height: 40px; border: 2px solid orange"
+          />
+          <span class="logo-text" style="font-size: 2em">ARISTOS</span>
+        </div>
         <div class="logo-underline"></div>
       </div>
 
-      <!-- Desktop Menu -->
+      <!-- Desktop Menu (No extra wrapper!) -->
       <ul class="nav-menu desktop-menu">
         <li class="nav-item">
           <a
-            href="#home"
+            href="home"
             class="nav-link"
             [class.active]="activeSection === 'home'"
           >
@@ -22,7 +38,7 @@
         </li>
         <li class="nav-item">
           <a
-            href="#products"
+            href="home#products"
             class="nav-link"
             [class.active]="activeSection === 'products'"
           >
@@ -30,9 +46,10 @@
             <div class="nav-underline"></div>
           </a>
         </li>
+
         <li class="nav-item">
           <a
-            href="#contact"
+            href="home#contact"
             class="nav-link"
             [class.active]="activeSection === 'contact'"
           >
@@ -44,8 +61,8 @@
 
       <!-- Auth Buttons -->
       <div class="auth-buttons desktop-auth">
-        <button class="btn btn-login">Login</button>
-        <button class="btn btn-signup">Sign Up</button>
+        <button class="btn btn-login" routerLink="/auth">Login</button>
+        <button class="btn btn-signup" routerLink="/auth">Sign Up</button>
       </div>
 
       <!-- Mobile Menu Toggle -->
@@ -63,12 +80,18 @@
     <!-- Mobile Menu -->
     <div class="mobile-menu" [class.active]="isMobileMenuOpen">
       <ul class="mobile-nav-list">
-        <li><a href="#home" (click)="closeMobileMenu()">Home</a></li>
-        <li><a href="#products" (click)="closeMobileMenu()">Products</a></li>
-        <li><a href="#contact" (click)="closeMobileMenu()">Contact Us</a></li>
+        <li><a href="home#home" (click)="closeMobileMenu()">Home</a></li>
+        <li>
+          <a href="home#products" (click)="closeMobileMenu()">Products</a>
+        </li>
+        <li>
+          <a href="home#contact" (click)="closeMobileMenu()">Contact Us</a>
+        </li>
         <li class="mobile-auth">
-          <button class="btn btn-login mobile">Login</button>
-          <button class="btn btn-signup mobile">Sign Up</button>
+          <button class="btn btn-login mobile" routerLink="/auth">Login</button>
+          <button class="btn btn-signup mobile" routerLink="/auth">
+            Sign Up
+          </button>
         </li>
       </ul>
     </div>
@@ -138,13 +161,14 @@
 
       <div class="hero-content">
         <h1 class="hero-title">
-          <span class="title-line animate-fade-up">Exquisite</span>
-          <span class="title-line animate-fade-up delay-1">Excellence</span>
+          <!-- <span class="title-line animate-fade-up">Exquisite</span>
+          <span class="title-line animate-fade-up delay-1">Excellence</span> -->
         </h1>
         <p class="hero-subtitle animate-fade-up delay-2">
-          Experience the pinnacle of luxury and sophistication with our curated
-          collection
+          <!-- Experience the pinnacle of luxury and sophistication with our curated
+          collection -->
         </p>
+        <br /><br /><br /><br /><br /><br />
         <button
           class="btn btn-hero animate-fade-up delay-3"
           (click)="scrollToProducts()"
@@ -165,55 +189,7 @@
     </section>
 
     <!-- Products Section -->
-    <section id="products" class="products-section">
-      <div class="container">
-        <h2 class="section-title animate-on-scroll">Our Premium Products</h2>
-        <div class="products-grid">
-          <div
-            class="product-card animate-on-scroll"
-            *ngFor="let product of products; let i = index"
-            [style.animation-delay]="i * 0.2 + 's'"
-          >
-            <!-- Top-right 3-dot menu -->
-            <div class="product-menu">
-              <button class="menu-button" (click)="toggleWishlistMenu(product)">
-                &#8942;
-              </button>
-              <div class="wishlist-menu" *ngIf="product.showWishlistMenu">
-                <button (click)="addToWishlist(product)">
-                  Add to Wishlist
-                </button>
-                <button (click)="removeFromWishlist(product)">
-                  Remove from Wishlist
-                </button>
-              </div>
-            </div>
-
-            <div class="product-image">
-              <div class="product-shimmer"></div>
-              <div class="product-overlay">
-                <button class="btn btn-view">View Details</button>
-              </div>
-            </div>
-
-            <div class="product-info">
-              <h3>{{ product.productName }}</h3>
-              <p>{{ product.description }}</p>
-              <span class="price">&#8377;{{ product.price }}</span>
-            </div>
-
-            <div class="product-actions">
-              <button class="btn btn-buy" (click)="buyNow(product)">
-                Buy Now
-              </button>
-              <button class="btn btn-cart" (click)="addToCart(product)">
-                Add to Cart
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <app-product id="products"></app-product>
 
     <!-- Testimonials Section -->
     <section class="testimonials-section">
@@ -269,26 +245,31 @@
     <!-- Contact Section -->
     <section id="contact" class="contact-section">
       <div class="container">
+        <h2 class="section-title">Get In Touch</h2>
         <div class="contact-content">
           <div class="contact-info">
-            <h2 class="section-title">Get In Touch</h2>
-            <p class="contact-description">
-              We'd love to hear from you. Reach out to us for any inquiries
-              about our exclusive collection.
-            </p>
+            <img
+              src="assets/FullLogo.png"
+              alt=""
+              style="
+                height: 250px;
+                border-radius: 50%;
+                border: 2px solid orange;
+              "
+            />
             <div class="contact-details">
               <div class="contact-item">
-                <strong>Address</strong>
-                <p>123 Luxury Avenue<br />Premium District, City 12345</p>
+                <p class="contact-description">
+                  We'd love to hear from you. Reach out to us for any inquiries
+                  about our exclusive collection.
+                </p>
+                <strong>Info</strong>
+                <p>Manderboni<br />Bankura, 722152</p>
+                <p>+91 9647755918 | 6297262287</p>
+                <p>brb302001@gmail.com</p>
               </div>
-              <div class="contact-item">
-                <strong>Phone</strong>
-                <p>+1 (555) 123-4567</p>
-              </div>
-              <div class="contact-item">
-                <strong>Email</strong>
-                <p>contact@aristos.com</p>
-              </div>
+              <div class="contact-item"></div>
+              <div class="contact-item"></div>
             </div>
           </div>
           <form class="contact-form">
